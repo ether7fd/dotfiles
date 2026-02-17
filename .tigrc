@@ -19,3 +19,5 @@ bind generic G none
 bind generic g move-first-line
 bind generic G move-last-line
 
+bind main D      !git diff %(commit)
+bind status D      !git diff -- %(file)

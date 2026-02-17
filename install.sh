@@ -1,31 +1,60 @@
-# !/usr/bin/env bash
+#!/usr/bin/env bash
 
-# 未定義な変数があったら途中で終了する
+# 未定義な変数があったら途中で終了
 set -u
+# エラーが発生した時点で停止
+set -e
+set -o pipefail
 
-# 今のディレクトリ
-# dotfilesディレクトリに移動する
-BASEDIR=$(dirname $0)
-cd $BASEDIR
+# スクリプトの場所を絶対パスで取得
+DOTFILES_DIR=$(cd "$(dirname "$0")"; pwd)
+cd "$DOTFILES_DIR"
 
-# dotfilesディレクトリにある、ドットから始まり2文字以上の名前のファイルに対して
+echo "Starting dotfiles setup..."
+
+# 1. 必要なディレクトリの作成
+mkdir -p ~/.config
+
+# 2. ホームディレクトリ直下のドットファイルのリンク
+# .git, .DS_Store, .config などを除外するルール
+echo "Linking dotfiles to home directory..."
 for f in .??*; do
     [ "$f" = ".git" ] && continue
-    [ "$f" = ".gitconfig.local.template" ] && continue
-    [ "$f" = ".gitmodules" ] && continue
+    [ "$f" = ".github" ] && continue
+    [ "$f" = ".DS_Store" ] && continue
 
-    # シンボリックリンクを貼る
-    ln -snfv ${PWD}/"$f" ~/
+    ln -snfv "$DOTFILES_DIR/$f" ~/
 done
 
-# Homebrew
-# Homebrewがインストールされていなければインストール
-if ! command -v brew &> /dev/null
-then
-    echo "Homebrew not found. Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# 3. Neovimの設定を ~/.config/nvim にリンク
+if [ -d "$DOTFILES_DIR/nvim" ]; then
+    echo "Linking Neovim config..."
+    ln -snfv "$DOTFILES_DIR/nvim" ~/.config/nvim
 fi
 
-# Brewfileを実行して環境を構築 (Homebrewのパッケージ、Caskアプリなどをインストール)
-echo "Installing Homebrew packages from Brewfile..."
-brew bundle --file ~/dotfiles/Brewfile
+# 4. OSごとの処理 (curlの確認など)
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    if ! command -v curl &> /dev/null; then
+        echo "Installing curl..."
+        sudo apt update && sudo apt install -y curl
+    fi
+fi
+
+# 5. Homebrew のインストール
+if ! command -v brew &> /dev/null; then
+    echo "Homebrew not found. Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # Apple Silicon Mac の場合はパスを通す必要がある
+    if [ -f /opt/homebrew/bin/brew ]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
+fi
+
+# 6. Brewfile の実行
+if [ -f "$DOTFILES_DIR/Brewfile" ]; then
+    echo "Installing packages from Brewfile..."
+    brew bundle --file "$DOTFILES_DIR/Brewfile"
+fi
+
+echo "Done"
