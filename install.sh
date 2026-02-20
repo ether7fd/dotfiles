@@ -16,7 +16,6 @@ echo "Starting dotfiles setup..."
 mkdir -p ~/.config
 
 # 2. ホームディレクトリ直下のドットファイルのリンク
-# .git, .DS_Store, .config などを除外するルール
 echo "Linking dotfiles to home directory..."
 for f in .??*; do
     [ "$f" = ".git" ] && continue
@@ -32,22 +31,32 @@ if [ -d "$DOTFILES_DIR/nvim" ]; then
     ln -snfv "$DOTFILES_DIR/nvim" ~/.config/nvim
 fi
 
-# 4. OSごとの処理 (curlの確認など)
+# 4. OSごとの処理 (Linux向け依存パッケージのインストール)
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    if ! command -v curl &> /dev/null; then
-        echo "Installing curl..."
-        sudo apt update && sudo apt install -y curl
+    echo "Checking required packages for Linux..."
+    # Homebrewに必要な build-essential や git 等もまとめて確認・インストール
+    if ! command -v curl &> /dev/null || ! command -v git &> /dev/null || ! command -v make &> /dev/null; then
+        echo "Installing required packages (curl, git, build-essential, procps, file)..."
+        sudo apt update && sudo apt install -y curl git build-essential procps file
     fi
 fi
 
 # 5. Homebrew のインストール
 if ! command -v brew &> /dev/null; then
     echo "Homebrew not found. Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # NONINTERACTIVE=1 を付与して非対話モードでインストール
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    # Apple Silicon Mac の場合はパスを通す必要がある
-    if [ -f /opt/homebrew/bin/brew ]; then
+    # インストールしたOSに合わせてパスを通す
+    if [ -x /opt/homebrew/bin/brew ]; then
+        # Mac (Apple Silicon)
         eval "$(/opt/homebrew/bin/brew shellenv)"
+    elif [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+        # Linux / WSL
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    elif [ -x /usr/local/bin/brew ]; then
+        # Mac (Intel)
+        eval "$(/usr/local/bin/brew shellenv)"
     fi
 fi
 
