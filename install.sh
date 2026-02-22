@@ -41,7 +41,8 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     fi
 fi
 
-# 5. Homebrew のインストール
+# 5. 各ツールのインストール
+## Homebrew
 if ! command -v brew &> /dev/null; then
     echo "Homebrew not found. Installing Homebrew..."
     # NONINTERACTIVE=1 を付与して非対話モードでインストール
@@ -58,6 +59,11 @@ if ! command -v brew &> /dev/null; then
         # Mac (Intel)
         eval "$(/usr/local/bin/brew shellenv)"
     fi
+fi
+
+## fisher
+if ! command -v brew &> /dev/null; then
+    curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 fi
 
 # 6. Brewfile の実行
