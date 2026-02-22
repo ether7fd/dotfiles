@@ -12,7 +12,7 @@ set diff-view   = line-number:yes,interval=1 text:yes,commit-title-overflow=no
 
 
 # "git commit --amend" by + key
-bind generic +      !git commit --amend --allow-empty
+bind generic + ?git commit --amend --allow-empty
 
 bind generic G none
 
