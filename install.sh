@@ -72,4 +72,7 @@ if [ -f "$DOTFILES_DIR/Brewfile" ]; then
     brew bundle --file "$DOTFILES_DIR/Brewfile"
 fi
 
+## TODO
+- [ ] fish config install
+
 echo "Done"
