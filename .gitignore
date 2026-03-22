@@ -1,0 +1,7 @@
+# fish_variables はマシン固有の設定が含まれるため除外
+fish/fish_variables
+fish/fish_variables.*
+
+# プラグインの実体は fish_plugins から再現できるため除外
+fish/functions/fisher.fish
+fish/completions/fisher.fish
