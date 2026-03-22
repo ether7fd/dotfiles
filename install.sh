@@ -61,10 +61,6 @@ if ! command -v brew &> /dev/null; then
     fi
 fi
 
-## fisher
-if ! command -v brew &> /dev/null; then
-    curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
-fi
 
 # 6. Brewfile の実行
 if [ -f "$DOTFILES_DIR/Brewfile" ]; then
@@ -72,7 +68,24 @@ if [ -f "$DOTFILES_DIR/Brewfile" ]; then
     brew bundle --file "$DOTFILES_DIR/Brewfile"
 fi
 
-## TODO
-- [ ] fish config install
+
+# 7. fishの設定を ~/.config/fish にリンク
+if [ -d "$DOTFILES_DIR/fish" ]; then
+    echo "Linking fish config..."
+    ln -snfv "$DOTFILES_DIR/fish" ~/.config/fish
+fi
+
+## fisher
+if ! fish -c "command -v fisher" &> /dev/null; then
+    echo "Installing fisher..."
+    fish -c "curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
+fi
+
+# プラグインの同期
+# 「fisher コマンドがある場合」に更新を実行する
+if fish -c "command -v fisher" &> /dev/null; then
+    echo "Updating fisher plugins..."
+    fish -c "fisher update"
+fi
 
 echo "Done"
