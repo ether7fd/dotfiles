@@ -10,6 +10,11 @@ end
 abbr -a ll " ls --color --group-directories-first -AlhFX"
 abbr -a ls " ls --color"
 
+abbr -a clip "iconv -c -f UTF-8 -t CP932 | clip.exe"
+function catclip
+    cat $argv | iconv -c -f UTF-8 -t CP932 | clip.exe
+end
+
 # 移動系
 ## ディレクトリ移動の略語設定
 abbr -a ..    cd ..
@@ -33,19 +38,22 @@ zoxide init fish | source
 # Set up fzf key bindings
 fzf --fish | source
 
+# 関数
 function cd
     builtin cd $argv
     ls -aF
 end
 
-abbr -a clip "iconv -c -f UTF-8 -t CP932 | clip.exe"
-function catclip
-    cat $argv | iconv -c -f UTF-8 -t CP932 | clip.exe
-end
-
 function cl
     builtin cd $argv
     ls --color --group-directories-first -AlhFX
+end
+
+function gitsync
+    git pull origin --prune
+    and git add .
+    and git commit -m (date "+%Y-%m-%d %H:%M:%S")
+    and git push origin HEAD
 end
 
 set -gx PATH $HOME/.local/bin $PATH
