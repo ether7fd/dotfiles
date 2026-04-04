@@ -1,49 +1,62 @@
-set -U fish_greeting
+set -g fish_greeting
 
 # カラーテーマ
 set -gx LS_COLORS (vivid generate molokai)
 
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+    # --- 初期設定 (fzf / zoxide) ---
+    fzf --fish | source
+    zoxide init fish | source
+
+    # --- キーバインド ---
+
+    # --- 略称 (Abbreviation) ---
+    # 表示系
+    abbr -a -g ll "ls --color --group-directories-first -AlhFX"
+    abbr -a -g ls "ls --color"
+
+    # 移動系
+    abbr -a -g -- - 'cd -'
+    abbr -a -g .. 'cd ..'
+    abbr -a -g ... 'cd ../..'
+    abbr -a -g .... 'cd ../../..'
+
+    # ツール系
+    abbr -a studio "nohup ~/bin/android-studio/bin/studio > /dev/null 2>&1 &"
+    abbr -a clip "iconv -c -f UTF-8 -t CP932 | clip.exe"
+    function catclip
+        cat $argv | iconv -c -f UTF-8 -t CP932 | clip.exe
+    end
+    if type -q nvim
+        abbr -a -g n "nvim"
+    end
+
+    if type -q tig
+        abbr -a -g t "tig"
+        abbr -a -g ti "tig"
+    end
+
+    if type -q podman
+        abbr -a -g docker "podman"
+    end
+    if type -q uv
+        abbr -a ur "uv run"
+    end
 end
 
-abbr -a ll " ls --color --group-directories-first -AlhFX"
-abbr -a ls " ls --color"
-
-abbr -a clip "iconv -c -f UTF-8 -t CP932 | clip.exe"
-function catclip
-    cat $argv | iconv -c -f UTF-8 -t CP932 | clip.exe
+# --- 関数定義 ---
+function fish_user_key_bindings
+    # Alt + z で zoxide + fzf を起動
+    bind \ez zi
 end
 
-# 移動系
-## ディレクトリ移動の略語設定
-abbr -a ..    cd ..
-abbr -a ...   cd ../..
-abbr -a ....  cd ../../..
-abbr -a ..... cd ../../../..
-
-# ツール系
-## android studio
-abbr -a studio "nohup ~/bin/android-studio/bin/studio > /dev/null 2>&1 &"
-
-abbr -a n "nvim"
-abbr -a h "history"
-abbr -a t "tig"
-abbr -a ti "tig"
-abbr -a ur "uv run"
-abbr -a docker "podman"
-
-zoxide init fish | source
-
-# Set up fzf key bindings
-fzf --fish | source
-
-# 関数
+# cd した後に自動で ls
 function cd
     builtin cd $argv
     ls -aF
 end
 
+# 詳しく表示して移動する関数
 function cl
     builtin cd $argv
     ls --color --group-directories-first -AlhFX
