@@ -3,6 +3,8 @@ set -g fish_greeting
 # カラーテーマ
 set -gx LS_COLORS (vivid generate molokai)
 
+set -gx EDITOR nvim
+
 if status is-interactive
     # --- 初期設定 (fzf / zoxide) ---
     fzf --fish | source
@@ -60,6 +62,15 @@ end
 function cl
     builtin cd $argv
     ls --color --group-directories-first -AlhFX
+end
+
+function y
+    set tmp (mktemp -t "yazi-cwd.XXXXXX")
+    command yazi $argv --cwd-file="$tmp"
+    if read -z cwd < "$tmp"; and [ "$cwd" != "$PWD" ]; and test -d "$cwd"
+        builtin cd -- "$cwd"
+    end
+    rm -f -- "$tmp"
 end
 
 function gitsync
