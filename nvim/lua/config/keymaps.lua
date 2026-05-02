@@ -46,8 +46,8 @@ keymap("n", "<C-f>", "/", noremap)
 keymap("x", "<C-f>", 'y/\\V<C-R>"<CR>', noremap)
 
 -- replace searched word
-keymap("n", "<c-r>", ":%s//gc<Left><Left><Left>", noremap)
-keymap("v", "<c-r>", ":s//gc<Left><Left><Left>", noremap)
+keymap("n", "<c-r>", ":%s///gc<Left><Left><Left>", noremap)
+keymap("v", "<c-r>", ":s///gc<Left><Left><Left>", noremap)
 
 -- press esc twice to hide highlight
 keymap("n", "<Esc><Esc>", ":noh<Return>", noremap)
