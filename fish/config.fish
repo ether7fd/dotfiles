@@ -14,8 +14,10 @@ if status is-interactive
 
     # --- 略称 (Abbreviation) ---
     # 表示系
-    abbr -a -g ll "ls --color --group-directories-first -AlhFX"
-    abbr -a -g ls "ls --color"
+    abbr -a l " ls --color --group-directories-first -AlhFX"
+    abbr -a ll " eza -laF --icons --group-directories-first --sort=ext"
+    abbr -a lt " eza -lTaF --icons --group-directories-first --sort=ext"
+    abbr -a ls " ls --color"
 
     # 移動系
     abbr -a -g -- - 'cd -'
@@ -41,8 +43,13 @@ if status is-interactive
     if type -q podman
         abbr -a -g docker "podman"
     end
+
     if type -q uv
         abbr -a ur "uv run"
+    end
+
+    if type -q bat
+        abbr -a cat "bat"
     end
 end
 
@@ -53,8 +60,7 @@ function fish_user_key_bindings
 end
 
 # cd した後に自動で ls
-function cd
-    builtin cd $argv
+function __auto_ls --on-variable PWD
     ls -aF
 end
 
@@ -71,6 +77,31 @@ function y
         builtin cd -- "$cwd"
     end
     rm -f -- "$tmp"
+end
+
+# fzfを使ってNeovimでファイルを開く関数
+function v
+    # fdでファイルとディレクトリを検索し、fzfに渡す
+    set -l target (fd --hidden --exclude .git 2>/dev/null | fzf \
+        --height=80% \
+        --layout=reverse \
+        --separator="─" \
+        --border=rounded \
+        --prompt="Directory> " \
+        --preview 'if [ -d {} ]; then ls -1A --color=always {}; else bat -n --color=always {}; fi' \
+        --preview-window="right:50%:border-rounded")
+
+    # 選択が確定(Enter)された場合の処理
+    if test $status -eq 0
+        # 選んだのがディレクトリならそこに移動(cd)、ファイルならNeovimで開く
+        if test -d "$target"
+            cd "$target"
+            # プロンプトの表示を更新する
+            commandline -f repaint
+        else
+            nvim "$target"
+        end
+    end
 end
 
 function gitsync
