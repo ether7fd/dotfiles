@@ -59,11 +59,11 @@ keymap("v", ">", ">gv", noremap)
 -- select cursor to end (not line break)
 keymap("v", "<C-l>", "$h", noremap)
 
-
 ----- window / tabs -----
--- split window
-keymap("n", "<C-w>s", ":new<Return><C-w>j", noremap)
-keymap("n", "<C-w>v", ":vnew<Return><C-w>l", noremap)
+keymap("n", "<M-/>", "<cmd>vsplit<CR>", { desc = "Vertical split" })
+keymap("n", "<M-->", "<cmd>split<CR>", { desc = "Horizontal split" })
+-- ウィンドウを閉じる (Alt + x)
+vim.keymap.set("n", "<M-x>", "<cmd>q<CR>", { desc = "Close window" })
 
 -- close buffer
 keymap("n", "<C-w>w", ":bd<Return>", noremap)

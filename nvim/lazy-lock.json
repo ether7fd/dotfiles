@@ -19,5 +19,7 @@
   "oil.nvim": { "branch": "master", "commit": "0fcc83805ad11cf714a949c98c605ed717e0b83e" },
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
   "skkeleton": { "branch": "main", "commit": "b530eac5a859ce2f8fa4d99fa5cd83b9d3199086" },
+  "smart-splits.nvim": { "branch": "master", "commit": "80be31a3d2e37d32bd37794da72a4f69fce7a85f" },
+  "vim-tmux-navigator": { "branch": "master", "commit": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432" },
   "zoxide.vim": { "branch": "master", "commit": "520d1abeb71ba42989a842251f8ba5c46be89aab" }
 }
