@@ -92,3 +92,10 @@ keymap("n", "[l", ":lprevious<Return>", silent_noremap)
 keymap("n", "]l", ":lnext<Return>", silent_noremap)
 keymap("n", "[<S-l>", ":lfirst<Return>", silent_noremap)
 keymap("n", "]<S-l>", ":llast<Return>", silent_noremap)
+
+----- clipboard -----
+vim.keymap.set("n", "<Space>cp", function()
+	local path = vim.fn.expand("%:p")
+	vim.fn.setreg("+", path)
+	print("Copied: " .. path) -- コピー完了のメッセージ（不要なら削除してください）
+end, { desc = "ファイルの絶対パスをクリップボードにコピー" })
