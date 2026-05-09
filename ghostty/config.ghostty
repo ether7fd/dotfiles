@@ -1,0 +1,14 @@
+# theme
+# theme = catppuccin-mocha.conf
+theme = TokyoNight
+
+background-opacity = 0.9
+background-blur-radius = 20
+
+# cursor
+cursor-style = block
+cursor-style-blink = false
+
+# shader
+custom-shader-animation = always
+custom-shader = shaders/cursor_warp.glsl

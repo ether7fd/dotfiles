@@ -105,10 +105,23 @@ function v
 end
 
 function gitsync
-    git pull origin --prune
-    and git add .
-    and git commit -m (date "+%Y-%m-%d %H:%M:%S")
-    and git push origin HEAD
+    # 変更がある場合のみ実行
+    if not git diff --quiet HEAD
+        git pull origin --prune
+        and git add .
+        and git commit -m (date "+%Y-%m-%d %H:%M:%S")
+        and git push origin HEAD
+    else
+        echo "No changes to sync."
+    end
 end
 
-set -gx PATH $HOME/.local/bin $PATH
+fish_add_path $HOME/.local/bin
+
+# for ghostty
+set -gx LD_LIBRARY_PATH "/home/linuxbrew/.linuxbrew/lib:$HOME/.local/lib:$LD_LIBRARY_PATH"
+if grep -q "microsoft" /proc/version
+    set -gx GALLIUM_DRIVER d3d12
+    set -gx MESA_GL_VERSION_OVERRIDE 4.6
+    set -gx MESA_GLSL_VERSION_OVERRIDE 460
+end
