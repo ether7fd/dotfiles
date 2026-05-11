@@ -63,7 +63,9 @@ keymap("v", "<C-l>", "$h", noremap)
 keymap("n", "<M-/>", "<cmd>vsplit<CR>", { desc = "Vertical split" })
 keymap("n", "<M-->", "<cmd>split<CR>", { desc = "Horizontal split" })
 -- ウィンドウを閉じる (Alt + x)
-vim.keymap.set("n", "<M-x>", "<cmd>q<CR>", { desc = "Close window" })
+keymap("n", "<M-x>", "<cmd>q<CR>", { desc = "Close window" })
+-- ウィンドウの入れ替え (Alt + s : Swap)
+keymap("n", "<M-s>", "<C-w>x", { desc = "Swap with next window" })
 
 -- close buffer
 keymap("n", "<C-w>w", ":bd<Return>", noremap)
