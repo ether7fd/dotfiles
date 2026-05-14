@@ -1,4 +1,4 @@
-local keymap = vim.api.nvim_set_keymap
+local keymap = vim.keymap.set
 local noremap = { noremap = true }
 local silent_noremap = { noremap = true, silent = true }
 local map = { noremap = false }
@@ -103,4 +103,17 @@ vim.keymap.set("n", "<Space>cp", function()
 end, { desc = "ファイルの絶対パスをクリップボードにコピー" })
 
 -- <Leader>n で相対行番号を切り替える
-vim.keymap.set("n", "<Leader>n", "<cmd>set relativenumber!<CR>", { desc = "Toggle relative number" })
+keymap("n", "<Leader>n", "<cmd>set relativenumber!<CR>", { desc = "Toggle relative number" })
+
+-- <Leader>l (LineのL) で、カーソル行の全文をポップアップ表示
+keymap("n", "<Leader>l", function()
+  -- 現在のカーソル行のテキストを取得
+  local line = vim.api.nvim_get_current_line()
+
+  -- Lspの綺麗なフロートウィンドウ機能を流用して表示
+  -- "c" の部分は、C言語のシンタックスハイライトを適用するという意味です
+  vim.lsp.util.open_floating_preview({ line }, "c", {
+    border = "rounded",  -- 丸みのある綺麗な枠線
+    focus = false,       -- ポップアップにカーソルを奪われないようにする
+  })
+end, { desc = "Show full line in popup" })
