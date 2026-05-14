@@ -20,8 +20,8 @@ vim.g.maplocalleader = " "
 
 ----- basic keys -----
 keymap("n", "<C-P>", ":", map)
-keymap("i", "<C-g>", "<Esc>", map)
-keymap("t", "<C-g><C-g>", "<C-\\><C-n>", map)
+keymap("i", "<C-x>", "<Esc>", map)
+keymap("t", "<C-x><C-x>", "<C-\\><C-n>", map)
 
 -- save
 keymap("n", "<C-s>", ":update<Return>", noremap)
