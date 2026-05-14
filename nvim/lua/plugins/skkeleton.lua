@@ -24,7 +24,7 @@ return {
 
             -- キーマップの設定（例：Ctrl+j で SKK ON）
             vim.keymap.set({ "i", "c" }, "<C-j>", "<Plug>(skkeleton-enable)", { desc = "skkeleton enable" })
-            vim.keymap.set({ "i", "c" }, "<C-g>", "<Plug>(skkeleton-disable)", { desc = "skkeleton disable" })
+            vim.keymap.set({ "i", "c" }, "<C-k>", "<Plug>(skkeleton-disable)", { desc = "skkeleton disable" })
         end,
     },
 }
