@@ -102,3 +102,13 @@ autocmd("LspAttach", {
 		end)
 	end,
 })
+
+-- カーソルがバッファ/ウィンドウ/分割画面から離れたら絶対行番号に戻す
+local numbertoggle = vim.api.nvim_create_augroup("NumberToggle", { clear = true })
+autocmd({ "BufLeave", "WinLeave", "FocusLost" }, {
+  group = numbertoggle,
+  pattern = "*",
+  callback = function()
+    vim.opt.relativenumber = false
+  end,
+})

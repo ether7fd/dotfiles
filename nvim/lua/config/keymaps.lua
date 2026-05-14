@@ -99,5 +99,8 @@ keymap("n", "]<S-l>", ":llast<Return>", silent_noremap)
 vim.keymap.set("n", "<Space>cp", function()
 	local path = vim.fn.expand("%:p")
 	vim.fn.setreg("+", path)
-	print("Copied: " .. path) -- コピー完了のメッセージ（不要なら削除してください）
+	print("Copied: " .. path) -- コピー完了のメッセージ
 end, { desc = "ファイルの絶対パスをクリップボードにコピー" })
+
+-- <Leader>n で相対行番号を切り替える
+vim.keymap.set("n", "<Leader>n", "<cmd>set relativenumber!<CR>", { desc = "Toggle relative number" })
