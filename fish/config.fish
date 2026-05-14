@@ -36,6 +36,7 @@ if status is-interactive
     end
     if type -q nvim
         abbr -a -g n "nvim"
+        abbr -a -g ns "nvim ." # session復元用
     end
 
     if type -q tig
@@ -64,7 +65,9 @@ end
 
 # cd した後に自動で ls
 function __auto_ls --on-variable PWD
-    ls -aF
+    if status is-interactive; and isatty stdout
+        ls -aF
+    end
 end
 
 # 詳しく表示して移動する関数

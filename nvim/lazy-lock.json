@@ -1,4 +1,5 @@
 {
+  "auto-session": { "branch": "main", "commit": "daa7c996a0395e26342934843938647d0f1e87f4" },
   "blink.cmp": { "branch": "main", "commit": "78336bc89ee5365633bcf754d93df01678b5c08f" },
   "denops.vim": { "branch": "main", "commit": "1df7a022d6e9cb3f6a3db43235e0f174ccd79e03" },
   "fidget.nvim": { "branch": "main", "commit": "889e2e96edef4e144965571d46f7a77bcc4d0ddf" },
