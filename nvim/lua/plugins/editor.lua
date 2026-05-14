@@ -11,22 +11,29 @@ return {
                 },
             })
             -- fzfのキーマップ設定
-            vim.api.nvim_set_keymap("n", "<Leader>ff", ":FzfLua builtin<Return>", { noremap = true })
-            vim.api.nvim_set_keymap("n", "<Leader>fd", ":FzfLua diagnostics_document<Return>", { noremap = true })
-            vim.api.nvim_set_keymap("n", "<Leader>fg", ":FzfLua live_grep<Return>", { noremap = true })
-            vim.api.nvim_set_keymap("n", "<Leader>fG", ":FzfLua grep_cWORD<Return>", { noremap = true })
-            vim.api.nvim_set_keymap("n", "<Leader>fl", ":FzfLua blines<Return>", { noremap = true })
-            vim.api.nvim_set_keymap("n", "<Leader>fn", ":FzfLua files<Return>", { noremap = true })
-            vim.api.nvim_set_keymap("n", "<Leader>fN", ":FzfLua oldfiles<Return>", { noremap = true })
-            vim.api.nvim_set_keymap("n", "<Leader>fb", ":FzfLua buffers<Return>", { noremap = true })
-            vim.api.nvim_set_keymap("n", "<Leader>ft", ":FzfLua tabs<Return>", { noremap = true })
-            vim.api.nvim_set_keymap("n", "<Leader>fr", ":FzfLua resume<Return>", { noremap = true })
+            vim.keymap.set("n", "<Leader>ff", "<cmd>FzfLua builtin<CR>", { noremap = true })
+            vim.keymap.set("n", "<Leader>fd", "<cmd>FzfLua diagnostics_document<CR>", { noremap = true })
+            vim.keymap.set("n", "<Leader>fg", "<cmd>FzfLua live_grep<CR>", { noremap = true })
+            vim.keymap.set("n", "<Leader>fc", function()
+              -- 現在開いているバッファの絶対パスからディレクトリ部分だけを抽出
+              local current_dir = vim.fn.expand("%:p:h")
+              current_dir = current_dir:gsub("^oil://", "")
+              -- そのディレクトリを検索対象(cwd)として fzf-lua を起動
+              require("fzf-lua").live_grep({ cwd = current_dir })
+            end, { desc = "Live grep in current file's directory" })
+            vim.keymap.set("n", "<Leader>fG", "<cmd>FzfLua grep_cWORD<CR>", { noremap = true })
+            vim.keymap.set("n", "<Leader>fl", "<cmd>FzfLua blines<CR>", { noremap = true })
+            vim.keymap.set("n", "<Leader>fn", "<cmd>FzfLua files<CR>", { noremap = true })
+            vim.keymap.set("n", "<Leader>fN", "<cmd>FzfLua oldfiles<CR>", { noremap = true })
+            vim.keymap.set("n", "<Leader>fb", "<cmd>FzfLua buffers<CR>", { noremap = true })
+            vim.keymap.set("n", "<Leader>ft", "<cmd>FzfLua tabs<CR>", { noremap = true })
+            vim.keymap.set("n", "<Leader>fr", "<cmd>FzfLua resume<CR>", { noremap = true })
         end,
     },
     {
         "stevearc/oil.nvim",
         keys = {
-            { "<C-n><C-n>", ":Oil<cr>", mode = "n" },
+            { "<C-n><C-n>", "<cmd>Oil<CR>", mode = "n" },
         },
         opts = {
             keymaps = {
