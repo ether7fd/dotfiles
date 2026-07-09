@@ -43,8 +43,16 @@ local options = {
 	spelllang = { "en_us" },
 	foldmethod = "indent", -- options) manual indent expr  syntax diff  marker
 	foldcolumn = "4", -- how many columns to show folding indicator on left
-	foldlevelstart = 99, -- 0 for close all, 99 for open all on start
-	diffopt = "horizontal",
+    foldlevelstart = 99,
+	diffopt = {
+		"internal",
+		"filler",
+		"closeoff",
+		"hiddenoff",
+		"algorithm:histogram", -- 差分計算アルゴリズムをより正確なものに
+		"indent-heuristic",    -- 空行やインデントのズレを賢く無視する
+		"linematch:60",        -- 超重要：行内の「文字単位」で差分をハイライトする
+	},
 }
 
 vim.opt.shortmess:append("c") -- do not show ins-completation-menu message
