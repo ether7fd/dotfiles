@@ -1,6 +1,6 @@
 # font
-font-family = "HackGen Console NF"
-font-size = 16
+# font-family = "HackGen Console NF"
+# font-size = 16
 
 # theme
 # theme = catppuccin-mocha.conf
@@ -16,3 +16,23 @@ cursor-style-blink = false
 # shader
 custom-shader-animation = always
 custom-shader = shaders/cursor_warp.glsl
+
+# --- 1. ペインの分割 (Split) ---
+# Alt + v で右に分割 (Vertical)
+keybind = alt+v=new_split:right
+# Alt + s で下に分割 (Horizontal/South)
+keybind = alt+s=new_split:down
+
+# --- 2. ペイン間の移動 (Navigation) ---
+# 【矢印キー派】 Alt + 矢印キー
+keybind = alt+left=goto_split:left
+keybind = alt+down=goto_split:bottom
+keybind = alt+up=goto_split:top
+keybind = alt+right=goto_split:right
+
+# --- 3. ペインのサイズ変更 (Resize) ---
+# Ctrl + Alt + 矢印キー でペインサイズを調整
+keybind = ctrl+alt+left=resize_split:left,10
+keybind = ctrl+alt+down=resize_split:down,10
+keybind = ctrl+alt+up=resize_split:up,10
+keybind = ctrl+alt+right=resize_split:right,10
