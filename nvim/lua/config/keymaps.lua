@@ -109,13 +109,16 @@ keymap("n", "<Leader>n", "<cmd>set relativenumber!<CR>", { desc = "Toggle relati
 
 -- <Leader>l (LineのL) で、カーソル行の全文をポップアップ表示
 keymap("n", "<Leader>l", function()
-  -- 現在のカーソル行のテキストを取得
-  local line = vim.api.nvim_get_current_line()
+	-- 現在のカーソル行のテキストを取得
+	local line = vim.api.nvim_get_current_line()
 
-  -- Lspの綺麗なフロートウィンドウ機能を流用して表示
-  -- "c" の部分は、C言語のシンタックスハイライトを適用するという意味です
-  vim.lsp.util.open_floating_preview({ line }, "c", {
-    border = "rounded",  -- 丸みのある綺麗な枠線
-    focus = false,       -- ポップアップにカーソルを奪われないようにする
-  })
+	-- Lspの綺麗なフロートウィンドウ機能を流用して表示
+	-- "c" の部分は、C言語のシンタックスハイライトを適用するという意味です
+	vim.lsp.util.open_floating_preview({ line }, "c", {
+		border = "rounded", -- 丸みのある綺麗な枠線
+		focus = false, -- ポップアップにカーソルを奪われないようにする
+		max_width = math.floor(vim.o.columns * 0.9),
+		max_height = 10,
+		wrap = true,
+	})
 end, { desc = "Show full line in popup" })
