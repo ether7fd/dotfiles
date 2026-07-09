@@ -17,11 +17,13 @@ vim.g.maplocalleader = " "
 --   command_mode = 'c',
 --   n / v / s / o = '',
 
-
 ----- basic keys -----
 keymap("n", "<C-P>", ":", map)
 keymap("i", "<C-x>", "<Esc>", map)
 keymap("t", "<C-x><C-x>", "<C-\\><C-n>", map)
+-- Ctrl + j/k で上下移動
+keymap("n", "<C-j>", "j", noremap)
+keymap("n", "<C-k>", "k", noremap)
 
 -- save
 keymap("n", "<C-s>", ":update<Return>", noremap)
@@ -41,7 +43,7 @@ keymap("n", "U", "<c-r>", noremap) -- bind new keymap
 keymap("", "<C-h>", "^", noremap)
 keymap("", "<C-l>", "$", noremap)
 
--- serach
+-- search
 keymap("n", "<C-f>", "/", noremap)
 keymap("x", "<C-f>", 'y/\\V<C-R>"<CR>', noremap)
 
