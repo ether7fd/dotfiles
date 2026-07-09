@@ -1,0 +1,28 @@
+# [status]
+# # ステータスバーの配色
+# # primary = { fg = "#282C34", bg = "#61AFEF" }
+# # secondary = { fg = "#282C34", bg = "#C678DD" }
+# # tertiary = { fg = "#282C34", bg = "#ABB2BF" }
+#
+# [manager]
+# # ファイルリストの背景と文字色
+# # cwd = { fg = "#61AFEF", bold = true }
+# # hovered = { bg = "#3E4451" }
+# # find_keyword = { fg = "#C678DD", italic = true }
+#
+# [mode]
+# # モード表示
+# normal = { fg = "#282C34", bg = "#61AFEF", bold = true }
+# select = { fg = "#282C34", bg = "#C678DD", bold = true }
+# unset  = { fg = "#282C34", bg = "#ABB2BF", bold = true }
+#
+# [filetype]
+# # ファイル拡張子ごとの色分け
+# rules = [
+# 	# { name = "*.md", fg = "#61AFEF" },
+# 	# { name = "*.py", fg = "#C678DD" },
+#     { url = "*/", fg = "#11AFEF" }, # お好みの色コードを指定
+# ]
+
+[flavor]
+dark = "catppuccin-frappe"
