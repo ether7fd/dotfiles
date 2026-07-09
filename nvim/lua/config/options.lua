@@ -42,7 +42,7 @@ local options = {
 	spell = true,
 	spelllang = { "en_us" },
 	foldmethod = "indent", -- options) manual indent expr  syntax diff  marker
-	foldcolumn = "4", -- how many columns to show folding indicator on left
+	foldcolumn = "1", -- how many columns to show folding indicator on left
     foldlevelstart = 99,
 	diffopt = {
 		"internal",
