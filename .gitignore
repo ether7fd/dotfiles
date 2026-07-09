@@ -1,11 +1,11 @@
 # fish
-completions
-conf.d
-fishd.*
-functions
-vars.fish
-local.fish
-fish_variables*
+fish/completions
+fish/conf.d
+fish/fishd.*
+fish/functions
+fish/vars.fish
+fish/local.fish
+fish/fish_variables*
 
 # ghostty
 shaders
