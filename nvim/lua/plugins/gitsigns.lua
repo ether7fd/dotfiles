@@ -6,6 +6,7 @@ return {
 		linehl = false,
 		word_diff = true,
 		current_line_blame = true,
+		max_file_length = 10000,
 		on_attach = function(bufnr)
 			local gs = package.loaded.gitsigns
 
