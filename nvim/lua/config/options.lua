@@ -41,17 +41,17 @@ local options = {
 	signcolumn = "yes",
 	spell = true,
 	spelllang = { "en_us" },
-	foldmethod = "indent", -- options) manual indent expr  syntax diff  marker
+	foldmethod = "manual", -- options) manual indent expr  syntax diff  marker
 	foldcolumn = "1", -- how many columns to show folding indicator on left
-    foldlevelstart = 99,
+	foldlevelstart = 99,
 	diffopt = {
 		"internal",
 		"filler",
 		"closeoff",
 		"hiddenoff",
 		"algorithm:histogram", -- 差分計算アルゴリズムをより正確なものに
-		"indent-heuristic",    -- 空行やインデントのズレを賢く無視する
-		"linematch:60",        -- 超重要：行内の「文字単位」で差分をハイライトする
+		"indent-heuristic", -- 空行やインデントのズレを賢く無視する
+		"linematch:60", -- 超重要：行内の「文字単位」で差分をハイライトする
 	},
 }
 
@@ -76,9 +76,9 @@ vim.opt.listchars:append("extends:»")
 vim.opt.listchars:append("precedes:«")
 vim.opt.listchars:append("nbsp:%")
 
-vim.opt.wrap = false         -- 画面端での強制折り返しをオフ（現状と同じ）
-vim.opt.sidescroll = 1       -- 横スクロールを「半画面飛び」ではなく「1文字ずつ」滑らかにする
-vim.opt.sidescrolloff = 10   -- カーソルが画面の右端（左端）の「10文字手前」に来たら、自動で画面を横にスクロールし始める
+vim.opt.wrap = false -- 画面端での強制折り返しをオフ（現状と同じ）
+vim.opt.sidescroll = 1 -- 横スクロールを「半画面飛び」ではなく「1文字ずつ」滑らかにする
+vim.opt.sidescrolloff = 10 -- カーソルが画面の右端（左端）の「10文字手前」に来たら、自動で画面を横にスクロールし始める
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
