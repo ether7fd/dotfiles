@@ -75,6 +75,12 @@ if [ -d "$DOTFILES_DIR/fish" ]; then
     ln -snfv "$DOTFILES_DIR/fish" ~/.config/fish
 fi
 
+# Yaziの設定を ~/.config/yazi にリンク
+if [ -d "$DOTFILES_DIR/yazi" ]; then
+    echo "Linking Yazi config..."
+    ln -snfv "$DOTFILES_DIR/yazi" ~/.config/yazi
+fi
+
 ## fisher
 if ! fish -c "command -v fisher" &> /dev/null; then
     echo "Installing fisher..."
