@@ -51,7 +51,17 @@ autocmd("TabEnter", {
 
 autocmd("LspAttach", {
 	callback = function(args)
-		local server_name = vim.lsp.get_client_by_id(args.data.client_id).name
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		local server_name = client.name
+
+		if server_name == "ruff" then
+			client.server_capabilities.hoverProvider = false
+			client.server_capabilities.definitionProvider = false
+			client.server_capabilities.declarationProvider = false
+			client.server_capabilities.implementationProvider = false
+			client.server_capabilities.typeDefinitionProvider = false
+			client.server_capabilities.renameProvider = false
+		end
 		vim.notify("LSP server: " .. server_name .. "\nAttached to: " .. vim.fn.expand("%"))
 		-- vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]) -- auto format on save
 		-- Enable completion triggered by <c-x><c-o>
@@ -59,8 +69,8 @@ autocmd("LspAttach", {
 
 		-- Buffer local mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		vim.keymap.set("n", "gr", vim.lsp.buf.references)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+		vim.keymap.set("n", "gr", "<cmd>FzfLua lsp_references<CR>")
+		vim.keymap.set("n", "gd", "<cmd>FzfLua lsp_definitions<CR>")
 		vim.keymap.set("n", "gD", vim.lsp.buf.declaration)
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
 		vim.keymap.set("n", "gt", vim.lsp.buf.type_definition)
@@ -106,9 +116,9 @@ autocmd("LspAttach", {
 -- カーソルがバッファ/ウィンドウ/分割画面から離れたら絶対行番号に戻す
 local numbertoggle = vim.api.nvim_create_augroup("NumberToggle", { clear = true })
 autocmd({ "BufLeave", "WinLeave", "FocusLost" }, {
-  group = numbertoggle,
-  pattern = "*",
-  callback = function()
-    vim.opt.relativenumber = false
-  end,
+	group = numbertoggle,
+	pattern = "*",
+	callback = function()
+		vim.opt.relativenumber = false
+	end,
 })

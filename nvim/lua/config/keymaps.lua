@@ -122,3 +122,6 @@ keymap("n", "<Leader>l", function()
 		wrap = true,
 	})
 end, { desc = "Show full line in popup" })
+
+-- <leader>w で折り返しを切り替え、現在の状態をエコーする
+vim.keymap.set("n", "<leader>w", ":set wrap! <Bar> set wrap?<CR>", { noremap = true })
