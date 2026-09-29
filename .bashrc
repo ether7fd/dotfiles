@@ -19,7 +19,9 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -119,10 +121,3 @@ fi
 
 # Set up fzf key bindings and fuzzy completion
 eval "$(fzf --bash)"
-
-# fnm
-FNM_PATH="/home/user1/.local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-    export PATH="$FNM_PATH:$PATH"
-    eval "$(fnm env)"
-fi

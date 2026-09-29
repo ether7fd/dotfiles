@@ -3,7 +3,9 @@ set -g fish_greeting
 set -gx LANG ja_JP.UTF-8
 set -gx LC_ALL ja_JP.UTF-8
 
-eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+if not set -q HOMEBREW_PREFIX; and test -x /home/linuxbrew/.linuxbrew/bin/brew
+    /home/linuxbrew/.linuxbrew/bin/brew shellenv fish | source
+end
 
 # カラーテーマ
 set -gx LS_COLORS (vivid generate molokai)
