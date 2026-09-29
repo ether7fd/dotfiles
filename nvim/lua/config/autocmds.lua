@@ -54,13 +54,9 @@ autocmd("LspAttach", {
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 		local server_name = client.name
 
+		-- hover は pyright などに任せる
 		if server_name == "ruff" then
 			client.server_capabilities.hoverProvider = false
-			client.server_capabilities.definitionProvider = false
-			client.server_capabilities.declarationProvider = false
-			client.server_capabilities.implementationProvider = false
-			client.server_capabilities.typeDefinitionProvider = false
-			client.server_capabilities.renameProvider = false
 		end
 		vim.notify("LSP server: " .. server_name .. "\nAttached to: " .. vim.fn.expand("%"))
 		-- vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]) -- auto format on save
@@ -69,20 +65,23 @@ autocmd("LspAttach", {
 
 		-- Buffer local mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		vim.keymap.set("n", "gr", "<cmd>FzfLua lsp_references<CR>")
-		vim.keymap.set("n", "gd", "<cmd>FzfLua lsp_definitions<CR>")
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
-		vim.keymap.set("n", "gt", vim.lsp.buf.type_definition)
-		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename)
-		vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action)
-		vim.keymap.set("n", "<leader>ll", function()
+		local function map(lhs, rhs, desc)
+			vim.keymap.set("n", lhs, rhs, { buffer = args.buf, desc = desc })
+		end
+		map("gr", "<cmd>FzfLua lsp_references<CR>", "LSP references")
+		map("gd", "<cmd>FzfLua lsp_definitions<CR>", "LSP definitions")
+		map("gD", vim.lsp.buf.declaration, "LSP declaration")
+		map("gi", vim.lsp.buf.implementation, "LSP implementation")
+		map("gt", vim.lsp.buf.type_definition, "LSP type definition")
+		map("<leader>lr", vim.lsp.buf.rename, "LSP rename")
+		map("<leader>la", vim.lsp.buf.code_action, "LSP code action")
+		map("<leader>ll", function()
 			vim.notify("LSP server: " .. server_name .. "\nAttached to: " .. vim.fn.expand("%"))
-		end)
-		vim.keymap.set("n", "<leader>llf", function()
+		end, "LSP info")
+		map("<leader>llf", function()
 			vim.lsp.buf.format({ async = true })
 			vim.notify("Format by LSP: " .. server_name)
-		end)
+		end, "LSP format")
 		-- show diagnostic on hover
 		local group = vim.api.nvim_create_augroup("OoO", {})
 
